@@ -1,11 +1,16 @@
 import css from './ContactForm.module.css';
 
+import { addContact } from '../../redux/contactsSlice';
+
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { nanoid } from 'nanoid';
 import { useId } from 'react';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 
-export default function ContactForm({ addContactFunction }) {
+export default function ContactForm() {
+  const dispatch = useDispatch();
+
   const contactSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, 'Too Short!')
@@ -26,7 +31,7 @@ export default function ContactForm({ addContactFunction }) {
     const { username: name, userNumber: number } = values;
     const id = nanoid();
     const newContact = { name, number, id };
-    addContactFunction(newContact);
+    dispatch(addContact(newContact));
     actions.resetForm();
   }
 

@@ -1,9 +1,11 @@
 import css from './Contact.module.css';
 
-export default function Contact({
-  contact: { id, name, number },
-  deleteContactFunction,
-}) {
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/contactsSlice';
+
+export default function Contact({ contact: { id, name, number } }) {
+  const dispatch = useDispatch();
+
   return (
     <li>
       <div className={css.listItem}>
@@ -13,7 +15,11 @@ export default function Contact({
             <p>{number}</p>
           </a>
         </div>
-        <button id={id} type="button" onClick={() => deleteContactFunction(id)}>
+        <button
+          id={id}
+          type="button"
+          onClick={() => dispatch(deleteContact(id))}
+        >
           Delete
         </button>
       </div>
